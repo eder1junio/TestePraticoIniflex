@@ -2,12 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.testepraticoiniflex.conexao;
+package com.mycompany.testepraticoiniflex.modelo;
 
 /**
  *
- * @author ederjunio
+ * @author Senac
  */
-public class conn {
+public class jtabelModelo { 
     
 }

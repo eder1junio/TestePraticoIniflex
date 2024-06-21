@@ -10,6 +10,15 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.time.Period;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -17,6 +26,7 @@ import javax.swing.JOptionPane;
  */
 public class pessoaFuncionarioJFrame extends javax.swing.JFrame {
     List<funcionarioModelo> cadastra = new ArrayList<>();
+    
     /**
      * Creates new form pessoaFuncionarioJFrame
      */
@@ -44,22 +54,24 @@ public class pessoaFuncionarioJFrame extends javax.swing.JFrame {
         datajTextField2 = new javax.swing.JTextField();
         salariojTextField3 = new javax.swing.JTextField();
         funcaojTextField4 = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        deletarjButton2 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         totaljButton1 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        AnivesariojButton3 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        ordenajButton4 = new javax.swing.JButton();
+        verificajButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Nome", "Data DE Nacimento", "Função", "Salario"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -85,9 +97,12 @@ public class pessoaFuncionarioJFrame extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("jButton2");
-
-        jButton3.setText("jButton3");
+        deletarjButton2.setText("DELETAR");
+        deletarjButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deletarjButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("Cadastro de Funcionario ");
 
@@ -98,82 +113,143 @@ public class pessoaFuncionarioJFrame extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("AUMENTO DE SALARIO");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("AGRUPA POR FUNÇÃO");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        AnivesariojButton3.setText("Anivesariate do Mês");
+        AnivesariojButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AnivesariojButton3ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("Fucionario com Maior idade");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        ordenajButton4.setText("Ordena Lista");
+        ordenajButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ordenajButton4ActionPerformed(evt);
+            }
+        });
+
+        verificajButton4.setText("Verifica Salario");
+        verificajButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                verificajButton4ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(75, 75, 75)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(nomejLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(nomejTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jButton3)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(datajTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(salariojLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(salariojTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(12, 12, 12)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(deletarjButton2)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton2)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton3))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(totaljButton1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(AnivesariojButton3)
+                                .addGap(29, 29, 29)
+                                .addComponent(verificajButton4))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(salvajButton1)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton1)
+                                .addGap(18, 18, 18)
+                                .addComponent(ordenajButton4))))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(funcaojLabel4)
-                        .addGap(73, 73, 73)
-                        .addComponent(funcaojTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(178, 178, 178)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(42, 42, 42)
-                        .addComponent(salvajButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2)
-                        .addGap(179, 179, 179)
-                        .addComponent(totaljButton1)
-                        .addGap(48, 48, 48))))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(178, 178, 178)
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(66, 66, 66)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(datajTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(nomejLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(nomejTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(funcaojLabel4)
+                                    .addComponent(salariojLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(salariojTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(funcaojTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addContainerGap(391, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nomejLabel1)
                     .addComponent(nomejTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(salariojTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(datajTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(salariojLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(datajTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(funcaojLabel4)
                     .addComponent(funcaojTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(6, 6, 6)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(salariojLabel3)
+                    .addComponent(salariojTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(110, 110, 110)
+                        .addGap(108, 108, 108)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(totaljButton1)
+                            .addComponent(AnivesariojButton3)
+                            .addComponent(verificajButton4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(58, 58, 58)
+                        .addGap(67, 67, 67)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton3)
+                            .addComponent(deletarjButton2)
                             .addComponent(jButton2)
+                            .addComponent(jButton3)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton1)
                             .addComponent(salvajButton1)
-                            .addComponent(totaljButton1))))
-                .addContainerGap())
+                            .addComponent(ordenajButton4))))
+                .addGap(20, 20, 20))
         );
 
         pack();
@@ -184,26 +260,176 @@ public class pessoaFuncionarioJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_nomejTextField1ActionPerformed
 
     private void salvajButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvajButton1ActionPerformed
+      
+       try{
        String nome = this.nomejTextField1.getText();
        String datastr = this.datajTextField2.getText();
        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
        LocalDate data = LocalDate.parse(datastr, formatter);
+       String dataFormatada = data.format(formatter);
        String salarioStr = this.salariojTextField3.getText();
-       BigDecimal salario = new BigDecimal(salarioStr);
+        NumberFormat format = NumberFormat.getInstance(new Locale("pt", "BR"));
+        Number number = format.parse(salarioStr);
+        BigDecimal salario = BigDecimal.valueOf(number.doubleValue());
+       //BigDecimal salario = new BigDecimal(salarioStr);
        String funcao = this.funcaojTextField4.getText();
 
         funcionarioModelo funcionario = new funcionarioModelo(nome, data, salario, funcao);
         cadastra.add(funcionario);
+        DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
+        model.addRow(new Object[]{nome,dataFormatada,salarioStr,funcao});
+        
+       } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao converter o salário: " + ex.getMessage());
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Erro: " + ex.getMessage());
+        }
+        
     }//GEN-LAST:event_salvajButton1ActionPerformed
 
+    private void deletarjButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deletarjButton2ActionPerformed
+        // TODO add your handling code here:
+         DefaultTableModel modelDelete = (DefaultTableModel)jTable1.getModel();
+        
+        String pesquisaNome = this.nomejTextField1.getText();
+        boolean encontrado = false;
+        
+       for(int i= 0; i< cadastra.size();i++){
+           if(cadastra.get(i).getNome().equals(pesquisaNome)){
+              cadastra.remove(i);
+              modelDelete.removeRow(i);
+              encontrado = true;
+               
+               
+           } 
+       }
+        if(encontrado){
+               JOptionPane.showMessageDialog(null,"O Funcionário "+pesquisaNome+"foi deletado com sucesso ");
+        }else{
+               JOptionPane.showMessageDialog(null,"O nome digita nao foi encontrado"+pesquisaNome);
+           }
+    }//GEN-LAST:event_deletarjButton2ActionPerformed
+
     private void totaljButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totaljButton1ActionPerformed
-         BigDecimal totalSalario = BigDecimal.ZERO;
+        BigDecimal totalSalario = BigDecimal.ZERO;
         for( funcionarioModelo funciona :cadastra){
-                BigDecimal salario1 = funciona.getSalario();
-             totalSalario = totalSalario.add(salario1);    
+            BigDecimal salario1 = funciona.getSalario();
+            totalSalario = totalSalario.add(salario1);
         }
-            JOptionPane.showMessageDialog(null,"Total de Salario :"+totalSalario);// TODO add your handling code here:
+        JOptionPane.showMessageDialog(null,"Total de Salario :"+totalSalario);// TODO add your handling code here:
+
     }//GEN-LAST:event_totaljButton1ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+     
+        String aumento = JOptionPane.showInputDialog("Poderia me informa qual a porcetagem de aumento nos salarios");
+        BigDecimal porcetagem = new BigDecimal(aumento);
+        for( funcionarioModelo funciona :cadastra){
+            BigDecimal  aumentoSalario = BigDecimal.ZERO;
+            BigDecimal salario1 = funciona.getSalario();
+            aumentoSalario = salario1.multiply(porcetagem).divide(new BigDecimal("100"));
+            BigDecimal totalsalario = salario1.add(aumentoSalario);
+            funciona.setSalario(totalsalario);
+            JOptionPane.showMessageDialog(null, "O Funcionario "+funciona.getNome()+"aumento o salario para "+funciona.getSalario());
+            
+        }
+        
+// TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+         
+        Map<String, List<funcionarioModelo>> funcionariosPorFuncao = new HashMap<>();
+
+        for (funcionarioModelo funcionario : cadastra) {
+            String funcao = funcionario.getFuncao();
+            List<funcionarioModelo> listaFuncionarios = funcionariosPorFuncao.getOrDefault(funcao, new ArrayList<>());
+            listaFuncionarios.add(funcionario);
+            funcionariosPorFuncao.put(funcao, listaFuncionarios);
+        }
+           StringBuilder mensagem = new StringBuilder();
+           for (Map.Entry<String, List<funcionarioModelo>> entry : funcionariosPorFuncao.entrySet()) {
+            String funcao = entry.getKey();
+            List<funcionarioModelo> listaFuncionarios = entry.getValue();
+
+            mensagem.append("Função: ").append(funcao).append("\n");
+            for (funcionarioModelo funcionario : listaFuncionarios) {
+                mensagem.append(funcionario.getNome()).append(" "+funcionario.getDataNacimento()).append(" "+funcionario.getSalario()).append("\n");
+            }
+            mensagem.append("---").append("\n");
+        }
+        JOptionPane.showMessageDialog(null, mensagem.toString(), "Funcionários por Função", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void AnivesariojButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AnivesariojButton3ActionPerformed
+            List<funcionarioModelo> funcionarioAnivesarioMes = new ArrayList<>();
+             StringBuilder mensagem = new StringBuilder();
+            int mesAnivesarioOutubro = 10;
+            int mesAnivesarioDesenbro = 12;
+        for(funcionarioModelo funcionario :cadastra){
+            if(funcionario.getDataNacimento().getMonthValue()== mesAnivesarioOutubro ||funcionario.getDataNacimento().getMonthValue() == mesAnivesarioDesenbro ){
+                funcionarioAnivesarioMes.add(funcionario);
+            }
+           
+         
+        }
+            mensagem.append("Anivesariante dos mês ").append(mesAnivesarioOutubro).append("e "+mesAnivesarioDesenbro).append(":\n");
+            for (funcionarioModelo funcionariodoAnivesariante : funcionarioAnivesarioMes) {
+            mensagem.append(funcionariodoAnivesariante.getNome()).append("\n");
+            
+            
+        }
+        JOptionPane.showMessageDialog(null, mensagem.toString(), "Funcionários por Mês", JOptionPane.INFORMATION_MESSAGE);
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_AnivesariojButton3ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+
+        LocalDate dataAtual = LocalDate.now();
+        List<funcionarioModelo> funcionarioIdadeMaio = new ArrayList<>();
+        int idadeMaior = 0;
+        for(funcionarioModelo funcionario : cadastra){
+           int idade = Period.between(funcionario.getDataNacimento(), dataAtual).getYears();
+           if(idade == 0 ||idade > idadeMaior){
+               idadeMaior = idade;
+               funcionarioIdadeMaio.add(funcionario);
+           }
+           for(funcionarioModelo idadeMaior1 : funcionarioIdadeMaio){
+               JOptionPane.showMessageDialog(null,"Nome:"+idadeMaior1.getNome()+" Idade :"+ idade,"Funcionario com Maio idade",JOptionPane.INFORMATION_MESSAGE);
+               
+           }
+           
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void ordenajButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ordenajButton4ActionPerformed
+            Collections.sort(cadastra);
+             DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
+             jTable1.setRowSorter(new TableRowSorter(model));
+            
+            // TODO add your handling code here:
+    }//GEN-LAST:event_ordenajButton4ActionPerformed
+
+    private void verificajButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verificajButton4ActionPerformed
+       
+        BigDecimal salarioMinino = new BigDecimal(1212.00);
+        
+        int cont = 0;
+        for(funcionarioModelo funcionario : cadastra){
+            if(funcionario.getSalario().compareTo(salarioMinino) <= 0)
+            {
+                 cont ++;
+            }
+            
+                
+                
+        }
+        JOptionPane.showMessageDialog(null,cont +" funcionarios que ganham menos que R$1212,00","Infoção de Salario",JOptionPane.INFORMATION_MESSAGE);
+        
+
+    }//GEN-LAST:event_verificajButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -234,16 +460,19 @@ public class pessoaFuncionarioJFrame extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
+             public void run() {
                 new pessoaFuncionarioJFrame().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AnivesariojButton3;
     private javax.swing.JTextField datajTextField2;
+    private javax.swing.JButton deletarjButton2;
     private javax.swing.JLabel funcaojLabel4;
     private javax.swing.JTextField funcaojTextField4;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel2;
@@ -252,9 +481,11 @@ public class pessoaFuncionarioJFrame extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel nomejLabel1;
     private javax.swing.JTextField nomejTextField1;
+    private javax.swing.JButton ordenajButton4;
     private javax.swing.JLabel salariojLabel3;
     private javax.swing.JTextField salariojTextField3;
     private javax.swing.JButton salvajButton1;
     private javax.swing.JButton totaljButton1;
+    private javax.swing.JButton verificajButton4;
     // End of variables declaration//GEN-END:variables
 }

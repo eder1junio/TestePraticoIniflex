@@ -23,6 +23,7 @@ public class TestePraticoIniflex {
     public static void main(String[] args) {
          new pessoaFuncionarioJFrame().setVisible(true);
         
+        /*
         List<funcionarioModelo> cadastra = new ArrayList<>();
         
         
@@ -48,6 +49,6 @@ public class TestePraticoIniflex {
                 BigDecimal salario1 = funciona.getSalario();
              totalSalario = totalSalario.add(salario1);
              System.out.println(totalSalario);    
-        }
+        }*/
     }
 }

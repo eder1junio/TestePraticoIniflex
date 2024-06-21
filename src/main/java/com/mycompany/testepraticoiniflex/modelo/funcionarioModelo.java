@@ -11,7 +11,7 @@ import java.time.LocalDate;
  *
  * @author ederjunio
  */
-public class funcionarioModelo extends pessoaModelo{
+public class funcionarioModelo extends pessoaModelo implements Comparable<funcionarioModelo>{
     
     public BigDecimal salario;
     public String funcao;
@@ -39,12 +39,12 @@ public class funcionarioModelo extends pessoaModelo{
     public String getFuncao() {
         return funcao;
     }
-    
-    public BigDecimal aumentaSalario(BigDecimal salario){
-        BigDecimal aumento = new BigDecimal("1.1");
-         salario = salario.multiply(aumento);
-         return salario;
+     @Override
+    public int compareTo(funcionarioModelo outroFuncionario) {
+        return this.nome.compareTo(outroFuncionario.getNome());
     }
+    
+    
     
     
    

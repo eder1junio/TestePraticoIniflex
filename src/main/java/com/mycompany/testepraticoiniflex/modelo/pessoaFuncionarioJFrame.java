@@ -57,7 +57,7 @@ public class pessoaFuncionarioJFrame extends javax.swing.JFrame {
         deletarjButton2 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         totaljButton1 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        aumentaSalariojButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         AnivesariojButton3 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -113,10 +113,10 @@ public class pessoaFuncionarioJFrame extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("AUMENTO DE SALARIO");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        aumentaSalariojButton1.setText("AUMENTO DE SALARIO");
+        aumentaSalariojButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                aumentaSalariojButton1ActionPerformed(evt);
             }
         });
 
@@ -180,7 +180,7 @@ public class pessoaFuncionarioJFrame extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addComponent(salvajButton1)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton1)
+                                .addComponent(aumentaSalariojButton1)
                                 .addGap(18, 18, 18)
                                 .addComponent(ordenajButton4))))
                     .addGroup(layout.createSequentialGroup()
@@ -246,7 +246,7 @@ public class pessoaFuncionarioJFrame extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(26, 26, 26)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1)
+                            .addComponent(aumentaSalariojButton1)
                             .addComponent(salvajButton1)
                             .addComponent(ordenajButton4))))
                 .addGap(20, 20, 20))
@@ -277,7 +277,7 @@ public class pessoaFuncionarioJFrame extends javax.swing.JFrame {
         funcionarioModelo funcionario = new funcionarioModelo(nome, data, salario, funcao);
         cadastra.add(funcionario);
         DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
-        model.addRow(new Object[]{nome,dataFormatada,salarioStr,funcao});
+        model.addRow(new Object[]{nome,dataFormatada,funcao,salarioStr});
         
        } catch (ParseException ex) {
             JOptionPane.showMessageDialog(null, "Erro ao converter o salário: " + ex.getMessage());
@@ -320,8 +320,8 @@ public class pessoaFuncionarioJFrame extends javax.swing.JFrame {
 
     }//GEN-LAST:event_totaljButton1ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-     
+    private void aumentaSalariojButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aumentaSalariojButton1ActionPerformed
+        DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
         String aumento = JOptionPane.showInputDialog("Poderia me informa qual a porcetagem de aumento nos salarios");
         BigDecimal porcetagem = new BigDecimal(aumento);
         for( funcionarioModelo funciona :cadastra){
@@ -330,12 +330,13 @@ public class pessoaFuncionarioJFrame extends javax.swing.JFrame {
             aumentoSalario = salario1.multiply(porcetagem).divide(new BigDecimal("100"));
             BigDecimal totalsalario = salario1.add(aumentoSalario);
             funciona.setSalario(totalsalario);
+            model.setValueAt(funciona.getSalario(),1, 3);
             JOptionPane.showMessageDialog(null, "O Funcionario "+funciona.getNome()+"aumento o salario para "+funciona.getSalario());
             
         }
         
 // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_aumentaSalariojButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
          
@@ -387,25 +388,30 @@ public class pessoaFuncionarioJFrame extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
 
         LocalDate dataAtual = LocalDate.now();
-        List<funcionarioModelo> funcionarioIdadeMaio = new ArrayList<>();
+        funcionarioModelo funcionarioIdadeMaio = null;
         int idadeMaior = 0;
         for(funcionarioModelo funcionario : cadastra){
            int idade = Period.between(funcionario.getDataNacimento(), dataAtual).getYears();
-           if(idade == 0 ||idade > idadeMaior){
+           if(idade > idadeMaior){
                idadeMaior = idade;
-               funcionarioIdadeMaio.add(funcionario);
+               funcionarioIdadeMaio = funcionario;
            }
-           for(funcionarioModelo idadeMaior1 : funcionarioIdadeMaio){
-               JOptionPane.showMessageDialog(null,"Nome:"+idadeMaior1.getNome()+" Idade :"+ idade,"Funcionario com Maio idade",JOptionPane.INFORMATION_MESSAGE);
-               
-           }
+              
            
-        }
+        }JOptionPane.showMessageDialog(null,"Nome:"+funcionarioIdadeMaio.getNome()+" Idade :"+ idadeMaior,"Funcionario com Maio idade",JOptionPane.INFORMATION_MESSAGE);
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void ordenajButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ordenajButton4ActionPerformed
             Collections.sort(cadastra);
+            StringBuilder mensagem = new StringBuilder();
+            for(funcionarioModelo ordenalista : cadastra){
+                mensagem.append("nome: ").append(ordenalista.getNome()).append(" Data de Nacimeno:")
+                        .append(ordenalista.getDataNacimento()).append(" salario: ")
+                        .append(ordenalista.getSalario()).append(" função: ").append(ordenalista.getFuncao()).append("\n");
+            }
+            JOptionPane.showMessageDialog(null, mensagem.toString(),"Lista Ordenada",JOptionPane.INFORMATION_MESSAGE);
+            
              DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
              jTable1.setRowSorter(new TableRowSorter(model));
             
@@ -468,11 +474,11 @@ public class pessoaFuncionarioJFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AnivesariojButton3;
+    private javax.swing.JButton aumentaSalariojButton1;
     private javax.swing.JTextField datajTextField2;
     private javax.swing.JButton deletarjButton2;
     private javax.swing.JLabel funcaojLabel4;
     private javax.swing.JTextField funcaojTextField4;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel2;

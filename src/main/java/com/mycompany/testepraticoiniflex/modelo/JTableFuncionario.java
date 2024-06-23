@@ -4,8 +4,13 @@
  */
 package com.mycompany.testepraticoiniflex.modelo;
 
+import com.mycompany.testepraticoiniflex.util.formartaSalario;
+import com.mycompany.testepraticoiniflex.util.formataData;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableColumnModel;
 
 /**
  *
@@ -14,7 +19,7 @@ import javax.swing.table.AbstractTableModel;
 public class JTableFuncionario extends AbstractTableModel{ 
 
     private ArrayList<funcionarioModelo> listaDeFuncionarios;
-    private String[] colunas = {"Nome", "Data de Nascimento", "Função", "Salario"};
+    private String[] colunas = {"Nome", "Data de Nascimento", "Função", "Salário"};
     
     
       public JTableFuncionario(){
@@ -57,7 +62,7 @@ public class JTableFuncionario extends AbstractTableModel{
 
             //coluna Data de Nascimento
             case 1:
-                return this.listaDeFuncionarios.get(rowIndex).getDataNacimento();
+                return this.listaDeFuncionarios.get(rowIndex).getDataNascimento();
             //Coluna Função 
             case 2:
                 return this.listaDeFuncionarios.get(rowIndex).getFuncao();
@@ -77,6 +82,35 @@ public class JTableFuncionario extends AbstractTableModel{
         return this.colunas[columnIndex];
     }
     
+     @Override
+    public Class<?> getColumnClass(int columnIndex) {
+        if (columnIndex == 3) {
+            return Double.class; 
+        }
+        return super.getColumnClass(columnIndex);
+    }
+    public void setColumnRenderer(JTable table) {
+       
+        TableColumnModel columnModel = table.getColumnModel();
+        columnModel.getColumn(3).setCellRenderer(new formartaSalario());
+    }
+     public void setColumnRendererDate(JTable table) {
+       
+        TableColumnModel columnModel = table.getColumnModel();
+        columnModel.getColumn(1).setCellRenderer(new formataData());
+    } 
+     
+     public Class<?> getColumnClassDate(int columnIndex) {
+        if (columnIndex == 1) { 
+            return LocalDate.class;
+        }
+        
+        return super.getColumnClass(columnIndex);
+    }
     
     
-}
+    }
+    
+    
+    
+

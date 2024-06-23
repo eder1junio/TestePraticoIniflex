@@ -7,20 +7,20 @@ package com.mycompany.testepraticoiniflex.view;
 import com.mycompany.testepraticoiniflex.controle.funcionarioControle;
 import com.mycompany.testepraticoiniflex.modelo.JTableFuncionario;
 import com.mycompany.testepraticoiniflex.modelo.funcionarioModelo;
-import java.awt.ComponentOrientation;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import javax.swing.JTable;
+import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import javax.swing.text.MaskFormatter;
 
@@ -29,10 +29,11 @@ import javax.swing.text.MaskFormatter;
  * @author ederjunio
  */
 public class pessoaFuncionarioJFrame extends javax.swing.JFrame {
-    List<funcionarioModelo> cadastra = new ArrayList<>();
+    List<funcionarioModelo> cadastrar = new ArrayList<>();
     private JTableFuncionario tableModel;
     MaskFormatter mFdata;
    
+  
     
     /**
      * Creates new form pessoaFuncionarioJFrame
@@ -49,8 +50,20 @@ public class pessoaFuncionarioJFrame extends javax.swing.JFrame {
         initComponents();
         this.tableModel = new JTableFuncionario();
         
-        //seta o modelo a tabela
+        
         this.jTableFuncionario.setModel(this.tableModel);
+       
+       this.tableModel.setColumnRenderer(jTableFuncionario);
+        this.tableModel.setColumnRendererDate(jTableFuncionario);
+        /* Tentei alterar o campo do JTable para ficar formatado conforme solicitado, 
+           mas quando uma coluna é alterada para a formatação desejada, outro campo retorna 
+           à formatação padrão."
+        */
+        
+
+        
+
+       
     }
 
     @SuppressWarnings("unchecked")
@@ -85,7 +98,7 @@ public class pessoaFuncionarioJFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nome", "Data DE Nacimento", "Função", "Salario"
+                "Nome", "Data de  Nascimento", "Função", "Salário"
             }
         ));
         jScrollPane1.setViewportView(jTableFuncionario);
@@ -99,9 +112,9 @@ public class pessoaFuncionarioJFrame extends javax.swing.JFrame {
 
         nomejLabel1.setText("Nome ");
 
-        jLabel2.setText("Data De Nacimento ");
+        jLabel2.setText("Data De Nascimento ");
 
-        salariojLabel3.setText("Salario");
+        salariojLabel3.setText("Salário");
 
         funcaojLabel4.setText("Função");
 
@@ -118,51 +131,51 @@ public class pessoaFuncionarioJFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel5.setText("Cadastro de Funcionario ");
+        jLabel5.setText("Cadastro de Funcionário ");
 
-        totaljButton1.setText("TOTAL DE SALARIO");
+        totaljButton1.setText("TOTAL DE SALÁRIO");
         totaljButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 totaljButton1ActionPerformed(evt);
             }
         });
 
-        aumentaSalariojButton1.setText("AUMENTO DE SALARIO");
+        aumentaSalariojButton1.setText("AUMENTO DE SALÁRIO");
         aumentaSalariojButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 aumentaSalariojButton1ActionPerformed(evt);
             }
         });
 
-        agrupaFuncaojButton2.setText("AGRUPA POR FUNÇÃO");
+        agrupaFuncaojButton2.setText("AGRUPAR POR FUNÇÃO");
         agrupaFuncaojButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 agrupaFuncaojButton2ActionPerformed(evt);
             }
         });
 
-        AnivesariojButton3.setText("Anivesariate do Mês");
+        AnivesariojButton3.setText("ANIVERSARIANTES DOS MESES 10 E 12");
         AnivesariojButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AnivesariojButton3ActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Fucionario com Maior idade");
+        jButton3.setText("FUNCIONÁRIO COM MAIOR IDADE");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
 
-        ordenajButton4.setText("Ordena Lista");
+        ordenajButton4.setText("LISTA ORDENADA");
         ordenajButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ordenajButton4ActionPerformed(evt);
             }
         });
 
-        verificajButton4.setText("Verifica Salario");
+        verificajButton4.setText("VERIFICAR SALÁRIO");
         verificajButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 verificajButton4ActionPerformed(evt);
@@ -219,7 +232,7 @@ public class pessoaFuncionarioJFrame extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(salariojTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(funcaojTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(391, Short.MAX_VALUE))
+                .addContainerGap(302, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -289,7 +302,7 @@ public class pessoaFuncionarioJFrame extends javax.swing.JFrame {
        String funcao = this.funcaojTextField4.getText();
 
         funcionarioModelo funcionario = new funcionarioModelo(nome, data, salario, funcao);
-        cadastra.add(funcionario);
+        cadastrar.add(funcionario);
         
         this.tableModel.addFuncionario(funcionario);
         
@@ -303,7 +316,11 @@ public class pessoaFuncionarioJFrame extends javax.swing.JFrame {
 
     private void deletarjButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deletarjButton2ActionPerformed
        int linhaDelete = this.jTableFuncionario.getSelectedRow();
+        String nome =(String) this.jTableFuncionario.getValueAt(linhaDelete, 0);
        this.tableModel.removeFuncionario(linhaDelete);
+       
+       funcionarioControle deletar = new funcionarioControle();
+       deletar.deletarFuncionario(cadastrar, nome);
       
        
     }//GEN-LAST:event_deletarjButton2ActionPerformed
@@ -311,7 +328,7 @@ public class pessoaFuncionarioJFrame extends javax.swing.JFrame {
     private void totaljButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totaljButton1ActionPerformed
         
     funcionarioControle totalSalario = new funcionarioControle();
-    totalSalario.totalSalario(cadastra);
+    totalSalario.totalSalario(cadastrar);
 // TODO add your handling code here:
 
     }//GEN-LAST:event_totaljButton1ActionPerformed
@@ -319,7 +336,7 @@ public class pessoaFuncionarioJFrame extends javax.swing.JFrame {
     private void aumentaSalariojButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aumentaSalariojButton1ActionPerformed
 
        funcionarioControle aumentaSalario = new funcionarioControle();
-       List<funcionarioModelo> funcionarioComAumento = aumentaSalario.aumentaSalario(cadastra);
+       List<funcionarioModelo> funcionarioComAumento = aumentaSalario.aumentaSalario(cadastrar);
         
         for(int i=0;i<funcionarioComAumento.size();i++){
             this.tableModel.setValueAt(funcionarioComAumento.get(i).getSalario(), i, 3);
@@ -333,13 +350,13 @@ public class pessoaFuncionarioJFrame extends javax.swing.JFrame {
 
     private void agrupaFuncaojButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agrupaFuncaojButton2ActionPerformed
          funcionarioControle agrupaPorFuncao = new funcionarioControle();
-         agrupaPorFuncao.agrupaPorFuncao(cadastra);
+         agrupaPorFuncao.agrupaPorFuncao(cadastrar);
         
     }//GEN-LAST:event_agrupaFuncaojButton2ActionPerformed
 
     private void AnivesariojButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AnivesariojButton3ActionPerformed
              funcionarioControle aniversario = new funcionarioControle();
-        aniversario.aniversarioOutubroDesenbro(cadastra);
+        aniversario.aniversarioOutubroDezembro(cadastrar);
 
         // TODO add your handling code here:
     }//GEN-LAST:event_AnivesariojButton3ActionPerformed
@@ -347,19 +364,22 @@ public class pessoaFuncionarioJFrame extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
    
         funcionarioControle metodo = new funcionarioControle();
-        metodo.calcularIdade(cadastra);
+        metodo.calcularIdade(cadastrar);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void ordenajButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ordenajButton4ActionPerformed
             funcionarioControle funcionario = new funcionarioControle();
-            funcionario.ordenaLista(cadastra);
-            // TODO add your handling code here:
+            funcionario.ordenaLista(cadastrar);
+            JOptionPane.showMessageDialog(null, "Selecione a coluna a ser ordenada ");
+            TableRowSorter<TableModel> ordenar  = new TableRowSorter<>(jTableFuncionario.getModel());
+            jTableFuncionario.setRowSorter(ordenar);
+                  
     }//GEN-LAST:event_ordenajButton4ActionPerformed
 
     private void verificajButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verificajButton4ActionPerformed
        
         funcionarioControle salarioDivSalarioMinimo = new funcionarioControle();
-        salarioDivSalarioMinimo.salarioMinimo(cadastra);
+        salarioDivSalarioMinimo.salarioMinimo(cadastrar);
 
     }//GEN-LAST:event_verificajButton4ActionPerformed
 

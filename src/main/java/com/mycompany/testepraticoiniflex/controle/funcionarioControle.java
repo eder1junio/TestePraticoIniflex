@@ -24,66 +24,70 @@ import javax.swing.JOptionPane;
 public class funcionarioControle {
     
     
-    public void calcularIdade(List<funcionarioModelo> cadastra){
-        if (cadastra == null || cadastra.isEmpty()){
+    public void calcularIdade(List<funcionarioModelo> cadastrar){
+        if (cadastrar == null || cadastrar.isEmpty()){
              
             JOptionPane.showMessageDialog(null, "A lista de funcionários está vazia ou é nula.", "Erro", JOptionPane.ERROR_MESSAGE);
             return;
         }
          LocalDate dataAtual = LocalDate.now();
-        funcionarioModelo funcionarioIdadeMaio = null;
+        funcionarioModelo funcionarioIdadeMaior = null;
         int idadeMaior = 0;
-        for(funcionarioModelo funcionario : cadastra){
-           int idade = Period.between(funcionario.getDataNacimento(), dataAtual).getYears();
+        for(funcionarioModelo funcionario : cadastrar){
+           int idade = Period.between(funcionario.getDataNascimento(), dataAtual).getYears();
            if(idade > idadeMaior){
                idadeMaior = idade;
-               funcionarioIdadeMaio = funcionario;
+               funcionarioIdadeMaior = funcionario;
            }
               
            
-        }JOptionPane.showMessageDialog(null,"Nome:"+funcionarioIdadeMaio.getNome()+" Idade :"+ idadeMaior,"Funcionario com Maio idade",JOptionPane.INFORMATION_MESSAGE);
+        }JOptionPane.showMessageDialog(null,"Nome:"+funcionarioIdadeMaior.getNome()+" Idade:"+ idadeMaior," Funcionário com Maior idade",JOptionPane.INFORMATION_MESSAGE);
     }
-    public void salarioMinimo(List<funcionarioModelo> cadastra){
+    public void salarioMinimo(List<funcionarioModelo> cadastrar){
     BigDecimal salarioMinino = new BigDecimal(1212.00);
         
         int cont = 0;
-        for(funcionarioModelo funcionario : cadastra){
+        for(funcionarioModelo funcionario : cadastrar){
             if(funcionario.getSalario().compareTo(salarioMinino) <= 0)
             {
                  cont ++;
             }
             BigDecimal salarioVesesMini = funcionario.getSalario().divide(salarioMinino,2,RoundingMode.HALF_UP);
-            JOptionPane.showMessageDialog(null,"O  funcionarios "+funcionario.getNome()+ "ganha "+salarioVesesMini+" vezes o Salario Minimo ","Informação de Salario",JOptionPane.INFORMATION_MESSAGE);            
+            JOptionPane.showMessageDialog(null,"Os  funcionários "+funcionario.getNome()+ 
+                    " ganha "+salarioVesesMini+" vezes o Salário Mínimo ","Informação de Salário",
+                    JOptionPane.INFORMATION_MESSAGE);            
                 
         }
-        JOptionPane.showMessageDialog(null,cont +" funcionarios que ganham menos que R$1212,00","Informação de Salario",JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null,cont +" funcionários que ganham menos que R$ 1212,00","Informação de Salário",
+                JOptionPane.INFORMATION_MESSAGE);
     }
-    public void ordenaLista(List<funcionarioModelo> cadastra){
-    Collections.sort(cadastra);
+    public void ordenaLista(List<funcionarioModelo> cadastrar){
+    Collections.sort(cadastrar);
             StringBuilder mensagem = new StringBuilder();
-            for(funcionarioModelo ordenalista : cadastra){
-                mensagem.append("nome: ").append(ordenalista.getNome()).append(" Data de Nacimeno:")
-                        .append(ordenalista.getDataNacimento()).append(" salario: ")
+            for(funcionarioModelo ordenalista : cadastrar){
+                mensagem.append("nome: ").append(ordenalista.getNome()).append(" Data de Nascimento:")
+                        .append(ordenalista.getDataNascimento()).append(" salário: ")
                         .append(ordenalista.getSalario()).append(" função: ").append(ordenalista.getFuncao()).append("\n");
             }
             JOptionPane.showMessageDialog(null, mensagem.toString(),"Lista Ordenada",JOptionPane.INFORMATION_MESSAGE);
             
             
     } 
-    public void aniversarioOutubroDesenbro(List<funcionarioModelo> cadastra){
-        List<funcionarioModelo> funcionarioAnivesarioMes = new ArrayList<>();
+    public void aniversarioOutubroDezembro(List<funcionarioModelo> cadastra){
+        List<funcionarioModelo> funcionarioAniversarioMes = new ArrayList<>();
              StringBuilder mensagem = new StringBuilder();
-            int mesAnivesarioOutubro = 10;
-            int mesAnivesarioDesenbro = 12;
+            int mesAniversarioOutubro = 10;
+            int mesAniversarioDezembro = 12;
         for(funcionarioModelo funcionario :cadastra){
-            if(funcionario.getDataNacimento().getMonthValue()== mesAnivesarioOutubro ||funcionario.getDataNacimento().getMonthValue() == mesAnivesarioDesenbro ){
-                funcionarioAnivesarioMes.add(funcionario);
+            if(funcionario.getDataNascimento().getMonthValue()== mesAniversarioOutubro ||
+                    funcionario.getDataNascimento().getMonthValue() == mesAniversarioDezembro ){
+                funcionarioAniversarioMes.add(funcionario);
             }
            
          
         }
-            mensagem.append("Anivesariante dos mês ").append(mesAnivesarioOutubro).append("e "+mesAnivesarioDesenbro).append(":\n");
-            for (funcionarioModelo funcionariodoAnivesariante : funcionarioAnivesarioMes) {
+            mensagem.append("Aniversariante dos mês ").append(mesAniversarioOutubro).append(" e "+mesAniversarioDezembro).append(":\n");
+            for (funcionarioModelo funcionariodoAnivesariante : funcionarioAniversarioMes) {
             mensagem.append(funcionariodoAnivesariante.getNome()).append("\n");
             
             
@@ -107,7 +111,7 @@ public class funcionarioControle {
 
             mensagem.append("Função: ").append(funcao).append("\n");
             for (funcionarioModelo funcionario : listaFuncionarios) {
-                mensagem.append(funcionario.getNome()).append(" "+funcionario.getDataNacimento()).append(" "+funcionario.getSalario()).append("\n");
+                mensagem.append(funcionario.getNome()).append(" "+funcionario.getDataNascimento()).append(" "+funcionario.getSalario()).append("\n");
             }
             mensagem.append("---").append("\n");
         }
@@ -115,9 +119,9 @@ public class funcionarioControle {
         
     }
     
-    public List<funcionarioModelo> aumentaSalario(List<funcionarioModelo> cadastra){
+    public List<funcionarioModelo> aumentaSalario(List<funcionarioModelo> cadastrar){
        
-        String aumento = JOptionPane.showInputDialog("Poderia me informa qual a porcetagem de aumento nos salarios");
+        String aumento = JOptionPane.showInputDialog(" Porcentagem de aumento salarial");
          
         if (aumento == null || aumento.trim().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Porcentagem de aumento não informada.", "Erro", JOptionPane.ERROR_MESSAGE);
@@ -125,7 +129,7 @@ public class funcionarioControle {
         }
         List<funcionarioModelo> funcionarioComAumento = new ArrayList<>();
         BigDecimal porcetagem = new BigDecimal(aumento);
-        for(funcionarioModelo funcionario: cadastra){
+        for(funcionarioModelo funcionario: cadastrar){
             BigDecimal  aumentoSalario = BigDecimal.ZERO;
             BigDecimal salario = funcionario.getSalario();
             aumentoSalario = salario.multiply(porcetagem).divide(new BigDecimal("100"));
@@ -134,7 +138,7 @@ public class funcionarioControle {
             funcionarioComAumento.add(funcionario);
             
           
-            JOptionPane.showMessageDialog(null, "O Funcionario "+funcionario.getNome()+"aumento o salario para "+funcionario.getSalario());
+            JOptionPane.showMessageDialog(null, "Salário do funcionário "+funcionario.getNome()+" atualizado em  R$ "+funcionario.getSalario());
            
             
         }
@@ -150,4 +154,17 @@ public class funcionarioControle {
         JOptionPane.showMessageDialog(null,"Total de Salario :"+totalSalario);
         
     }
-}
+    public void deletarFuncionario (List<funcionarioModelo>cadastra,String nome){
+            for(int i =0;i<cadastra.size();i++)
+                if(cadastra.get(i).getNome().equals(nome)){
+                    cadastra.remove(i);
+                }
+                
+           
+            
+        }
+        
+        
+    }
+    
+

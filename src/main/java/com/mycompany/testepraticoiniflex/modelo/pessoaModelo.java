@@ -13,11 +13,11 @@ import java.time.LocalDate;
 public class pessoaModelo {
     
     public String nome;
-    public LocalDate dataNacimento;
+    public LocalDate dataNascimento;
     
-    public pessoaModelo(String nome,LocalDate dataNacimento){
+    public pessoaModelo(String nome,LocalDate dataNascimento){
         this.nome = nome;
-        this.dataNacimento = dataNacimento;
+        this.dataNascimento = dataNascimento;
         
     }
 
@@ -25,16 +25,16 @@ public class pessoaModelo {
         this.nome = nome;
     }
 
-    public void setDataNacimento(LocalDate dataNacimento) {
-        this.dataNacimento = dataNacimento;
+    public void setDataNascimento(LocalDate dataNacimento) {
+        this.dataNascimento = dataNacimento;
     }
 
     public String getNome() {
         return nome;
     }
 
-    public LocalDate getDataNacimento() {
-        return dataNacimento;
+    public LocalDate getDataNascimento() {
+        return dataNascimento;
     }
 
 }
